@@ -203,12 +203,13 @@ $query_acc.= "ON AV1.accounts_id = Acc.id ";
 $query_acc.= "AND DATE_FORMAT(AV1.date,'%Y-%m') = DATE_FORMAT(NOW() - INTERVAL 2 MONTH, '%Y-%m') ";
 $query_acc.= "LEFT JOIN p_econ_accountvalues AS AV3 ";
 $query_acc.= "ON AV3.accounts_id = Acc.id ";
-$query_acc.= "AND DATE_FORMAT(AV3.date,'%Y-%m') = DATE_FORMAT(NOW() - INTERVAL 4 MONTH, '%Y-%m') ";
+$query_acc.= "AND DATE_FORMAT(AV3.date,'%Y-%m') = DATE_FORMAT(NOW() - INTERVAL 5 MONTH, '%Y-%m') ";
 $query_acc.= "LEFT JOIN p_econ_acccategories AS AC ";
 $query_acc.= "ON AC.id = Acc.accCat_id ";
 $query_acc.= "WHERE AV.Value <> 0 OR AV1.Value <> 0 OR AV3.Value <> 0 ";
 $query_acc.= "ORDER BY Owner, AC.sortorder, Acc.name";
 try{
+  $db->query("SET SQL_BIG_SELECTS=1");
   $accounts = $db->query($query_acc);
 } catch (PDOException $err) {
   echo "<p>".$err->getMessage()."</p>";

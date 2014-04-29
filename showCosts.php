@@ -227,7 +227,7 @@ function setBgColor(bg_color) {
  <form>
  <table border="0" align="left">
   <tr>
-    <td width="100">Filtrera på användare:</td>
+    <td width="100">Filtrera p&aring; användare:</td>
      <?php do { ?>
        <td><?php printf("<input type='checkbox' id='user_%s' onChange='myUpdate();'>%s<br />",$row_users['name'],$row_users['name']); ?></td>
       <?php } while ($row_users = mysql_fetch_assoc($users)); ?>
