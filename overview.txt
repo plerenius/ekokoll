@@ -1,0 +1,89 @@
+HTTP/1.1 200 OK
+Cache-Control: no-cache
+Pragma: no-cache
+Content-Type: text/html; charset=iso-8859-1
+Expires: -1
+Server: Microsoft-IIS/7.5
+X-AspNet-Version: 2.0.50727
+X-Powered-By: ASP.NET
+Date: Tue, 23 Apr 2013 19:37:09 GMT
+Content-Length: 2916
+
+
+
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" 
+	"http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="sv"> 
+
+<head> 
+	<title>Översikt</title> 
+	<meta http-equiv="content-type" content="application/xhtml+xml; charset=iso-8859-1" /> 
+	<meta http-equiv="cache-control" content="no-cache" /> 
+	<meta http-equiv="pragma" content="no-cache" /> 
+	<meta http-equiv="expires" content="0" /> 
+	<link rel="stylesheet" href="../resources/css/mobil.css" type="text/css" /> 
+</head> 
+
+<body>
+
+	<div class="content_holder">
+		
+		<div class="top_logo">
+			<img src="../resources/media/logo.gif" width="157" height="34" alt="ICA Banken"/>
+		</div>
+		
+		<div class="main">
+
+            
+<div><b>Konton</b></div>
+
+<div><a href="account.aspx?id=0000100578" accesskey="1">Vardagskonto</a><br/>- Disponibelt 1.797,18 kr<br/>- Saldo 1.797,18 kr</div>
+
+<div><a href="account.aspx?id=0000200574" accesskey="2">Fakturakonto</a><br/>- Disponibelt 13.646,52 kr<br/>- Saldo -6.258,48 kr</div>
+
+<div><a href="account.aspx?id=0000300577" accesskey="3">Övrigt</a><br/>- Disponibelt 0,00 kr<br/>- Saldo 0,00 kr</div>
+
+<div><a href="account.aspx?id=0000700573" accesskey="4">Sparkonto P</a><br/>- Disponibelt 13.864,98 kr<br/>- Saldo 13.864,98 kr</div>
+
+<div style="height: 10px;"></div>
+
+            
+<div><b>Gemensamma konton</b></div>
+
+<div><a href="account.aspx?id=0000400568" accesskey="5">Gemensamt</a><br/>- Disponibelt 1.065,15 kr<br/>- Saldo 1.065,15 kr</div>
+
+<div><a href="account.aspx?id=0000500578" accesskey="6">Lägenheten</a><br/>- Disponibelt 125,16 kr<br/>- Saldo 125,16 kr</div>
+
+<div><a href="account.aspx?id=0000600568" accesskey="7">Övrigt</a><br/>- Disponibelt 0,00 kr<br/>- Saldo 0,00 kr</div>
+
+<div><a href="account.aspx?id=0000800584" accesskey="8">Sparkonto</a><br/>- Disponibelt 93,99 kr<br/>- Saldo 93,99 kr</div>
+
+<div><a href="account.aspx?id=0000900573" accesskey="9">Spar Hus</a><br/>- Disponibelt 0,00 kr<br/>- Saldo 0,00 kr</div>
+
+<div><a href="account.aspx?id=0001000572">Spar Bröllop</a><br/>- Disponibelt 0,00 kr<br/>- Saldo 0,00 kr</div>
+
+<div style="height: 10px;"></div>
+
+            
+
+		</div>
+
+		<div class="menu">
+ 			<div><a href="../services/services.aspx" accesskey="*">Tillbaka</a></div>
+ 			<div><a href="../services/services.aspx" accesskey="0">Meny</a></div>
+ 			<div><a href="../logout/logout.aspx" accesskey="#">Logga ut</a></div>
+		</div>
+		
+		<div class="footer">
+ 			<div><a href="../about/cookies.aspx">Om cookies</a></div>
+			<div><a href="../about/persondata.aspx">Om personuppgifter</a></div>
+		</div>
+	
+	</div>
+
+    <img src="https://icabankensdc.ica.se/dcscxdv6300000s5be0cqqkiu_8z4k/dcs.gif?dcssip=mobil.icabanken.se&dcsuri=/account/overview.aspx&WT.cg_n=Mobil" id="wt_dcsimg" name="dcsimg" border="0" width="1" height="1" />
+
+
+</body>
+</html>

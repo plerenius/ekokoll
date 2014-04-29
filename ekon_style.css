@@ -1,0 +1,40 @@
+a:link { /* unvisited link */
+    text-decoration: none;
+    color:#000055
+}
+a:visited { /* visited link */
+    text-decoration: none;
+    color:#000055
+}
+a:hover { /* mouse over link */
+    text-decoration: underline;
+    color:#0000DD
+}
+a:active { /* selected link */
+    text-decoration: none;
+    color:#0000AA
+} /* selected link */
+.sum_name {
+	background-color: #9FC;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: groove;
+	border-left-style: none;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: large;
+	font-weight: bold;
+}
+.sum_mainCat {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: medium;
+	font-weight: bold;
+}
+.utlagg_Petter {
+	background-color: #CFF;
+}
+.utlagg_Louise {
+	background-color: #FFC;
+}
+.utlagg_Gemensamt {
+	background-color: #FCF;
+}
