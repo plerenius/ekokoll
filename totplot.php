@@ -54,7 +54,7 @@ $stock_sql.="GROUP BY DATE(sv.time) ";
 $stock_sql.="ORDER BY DATE(sv.time) ";
 $accs[] = "acc_Petter_Stocks";
 
-$query_accSum = " SELECT * FROM (";
+$query_accSum = "SELECT * FROM (";
 $query_accSum .= "SELECT ";
 while($row_accounts = $Acc->fetchObject())
 {
@@ -77,8 +77,20 @@ $query_accSum .= "WHERE $user AND $acc_cat AND $acc_id ";
 $query_accSum .= "GROUP BY AV.date ";
 $query_accSum .= "ORDER BY AV.date) AS A ";
 $query_accSum .= "LEFT JOIN ($stock_sql) AS Stocks ON A.DATUM=DATE_FORMAT(Stocks.date,'%y-%m') ";
-
-$qt=mysql_query($query_accSum, $localhost_lerenius) or die(mysql_error());
+try{
+  mysql_query("SET SQL_BIG_SELECTS=1", $localhost_lerenius) or die(mysql_error());
+  $qt=mysql_query($query_accSum, $localhost_lerenius) or die(mysql_error());
+} catch (PDOException $err) {
+  echo "<p>".$err->getMessage()."</p>";
+}
+if(!$qt)
+{
+  $err=$db->errorInfo();
+  $err_str = "<body><p><h2>Execute query_accSum query error, because:</h2><br />";
+  $err_str .= $err[2]."</p>\n";
+  $err_str .= "<p>SQL:<br />".$query_acc."</p></body>";
+  die($err_str);
+}
 
 $old_month=5;
 while($nt=mysql_fetch_array($qt))
