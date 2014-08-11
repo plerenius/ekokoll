@@ -25,7 +25,7 @@ if (isset($_GET['acc_cat'])) {
   $acc_cat = "1";
 }
 
-// Utgiftsöversikt
+// Hitta alla konton
 $query_acc = "SELECT DISTINCT accCat_id,users_id AS Owner FROM p_econ_accounts WHERE $user AND $acc_id ORDER BY users_id";
 $Acc = $db->query($query_acc);
 if(!$Acc)
@@ -39,17 +39,17 @@ $old_owner = "";
 // Skapa månadsfråga
 //Skapa Aktiedata
 $stock_sql="SELECT DATE_FORMAT(sv.time,'%Y-%m-%d') AS date, ";
-$stock_sql.="SUM(sh.nofstocks * sv.value) AS `acc_Petter_Stocks` ";
-$stock_sql.="FROM ";
-$stock_sql.="( ";
-$stock_sql.="  SELECT * FROM p_ekon_stockvalues AS sv1 ";
-$stock_sql.="  JOIN ( ";
-$stock_sql.="    SELECT MAX(time) AS time2 ";
-$stock_sql.="    FROM `p_ekon_stockvalues` AS x ";
-$stock_sql.="    GROUP BY YEAR(time), MONTH(time) ";
-$stock_sql.="  ) AS sv2 ON DATE_FORMAT( sv1.time,  '%Y-%m-%d' ) = DATE_FORMAT( sv2.time2,  '%Y-%m-%d' ) ";
+$stock_sql.="SUM(IF(sh.date < DATE(sv.time),sh.nofstocks,0) * sv.value) AS acc_Petter_Stocks ";
+$stock_sql.="FROM ( ";
+$stock_sql.="    SELECT * FROM p_ekon_stockvalues AS sv1 ";
+$stock_sql.="    INNER JOIN ( ";
+$stock_sql.="        SELECT MAX(time) AS maxTime ";
+$stock_sql.="        FROM `p_ekon_stockvalues` ";
+$stock_sql.="        GROUP BY YEAR(time), MONTH(time) ";
+$stock_sql.="    ) AS sv2 ";
+$stock_sql.="    ON DATE(sv1.time) = DATE(sv2.maxTime) ";
 $stock_sql.=") AS sv ";
-$stock_sql.="LEFT JOIN p_ekon_stockholdings AS sh ON sv.stock_id = sh.stock_id ";
+$stock_sql.="LEFT JOIN p_ekon_stockholdings AS sh ON sh.stock_id = sv.stock_id ";
 $stock_sql.="GROUP BY DATE(sv.time) ";
 $stock_sql.="ORDER BY DATE(sv.time) ";
 $accs[] = "acc_Petter_Stocks";
@@ -77,6 +77,8 @@ $query_accSum .= "WHERE $user AND $acc_cat AND $acc_id ";
 $query_accSum .= "GROUP BY AV.date ";
 $query_accSum .= "ORDER BY AV.date) AS A ";
 $query_accSum .= "LEFT JOIN ($stock_sql) AS Stocks ON A.DATUM=DATE_FORMAT(Stocks.date,'%y-%m') ";
+$query_accSum .= " ORDER BY A.DATUM";
+
 try{
   mysql_query("SET SQL_BIG_SELECTS=1", $localhost_lerenius) or die(mysql_error());
   $qt=mysql_query($query_accSum, $localhost_lerenius) or die(mysql_error());
