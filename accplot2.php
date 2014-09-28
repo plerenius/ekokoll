@@ -1,5 +1,5 @@
 <?php
-require_once("Connections/localhost_lerenius.php");
+include "Connections/localhost_lerenius.php";
 require_once("../jpgraph/src/jpgraph.php");
 
 mysql_select_db($database_localhost_lerenius, $localhost_lerenius);
@@ -24,6 +24,7 @@ $query_accounts = "SELECT id,name,users_id AS Owner FROM p_econ_accounts WHERE $
 $accounts = mysql_query($query_accounts, $localhost_lerenius) or die(mysql_error());
 $old_owner = "Petter";
 $accs = array();
+$accsName[] = array();
 
 $query_accSum = "SELECT Acc.users_id AS Owner,AV.date AS Datum, ";
 while($row_accounts = mysql_fetch_assoc($accounts))
@@ -33,16 +34,18 @@ while($row_accounts = mysql_fetch_assoc($accounts))
     $old_owner=$row_accounts['Owner'];
     $query_accSum .= "SUM(if(Acc.users_id='$old_owner',AV.Value,0)) AS Total_$old_owner, ";
 	$accs[] = "Total_$old_owner";
+	$accsName[end(array_values($accs))] = "Total " . $row_accounts['name'];
   }
   $query_accSum .= "SUM(if(Acc.id=$row_accounts[id],AV.Value,0)) AS `acc_$row_accounts[id]`, ";
   $accs[] = "acc_$row_accounts[id]";
+  $accsName[end(array_values($accs))] = $row_accounts['name'];
 }
 $query_accSum .= "SUM(AV.value) AS Summa ";
 $accs[] = "Summa";
+$accsName[end(array_values($accs))] = "Totalt";
 $query_accSum .= "FROM `p_econ_accountvalues` AS AV ";
 $query_accSum .= "LEFT JOIN p_econ_accounts AS Acc ON AV.accounts_id = Acc.id ";
 $query_accSum .= " WHERE $user AND $acc_cat AND $acc_id GROUP BY AV.date";
-
 $qt=mysql_query($query_accSum, $localhost_lerenius) or die(mysql_error());
 //header ("Content-type: image/jpg");
 
@@ -82,6 +85,8 @@ foreach($accs as $acc)
 	//echo "$acc=$data[$acc][0]<br>\n";
 	$line[$acc] = new LinePlot($data[$acc]);
 	$line[$acc]->SetColor('darkolivegreen');
+	//echo $acc . ": " . $accsName[$acc];
+	$line[$acc]->SetLegend($accsName[$acc]);
 	$graph->Add($line[$acc]);
 }
 // Setup the titles

@@ -23,7 +23,8 @@ if (!$a_list) {
   die("Execute query error, because: ". $db->errorInfo());
 }
 
-$list_sql="SELECT DATE_FORMAT(time,'%Y-%m-%d') AS time, SUM(sh.nofstocks * sv.value) AS sum ";
+$list_sql="SELECT DATE_FORMAT(time,'%Y-%m-%d') AS time, SUM(sh.nofstocks * sv.value) AS sum, ";
+$list_sql.="s.name AS name ";
 $list_sql.="FROM p_ekon_stocks AS s ";
 $list_sql.="LEFT JOIN p_ekon_stockholdings AS sh ON s.id = sh.stock_id ";
 $list_sql.="LEFT JOIN (SELECT * FROM p_ekon_stockvalues WHERE DATE_FORMAT(time,'%Y-%m-%d')>DATE_FORMAT(NOW()-INTERVAL 3 MONTH,'%Y-%m-%d')) ";
@@ -58,7 +59,8 @@ foreach ($aktie_id as $id) {
 		   $base=$sv->sum;
 		   $first=0;
 	   }
-      $data[]=$sv->sum/$base*100;
+      $data[]=$sv->sum/$base;
+      $stockName=$sv->name;
       if($old_month++ == 10) {
         $datax[]=$sv->time;
         $old_month=0;
@@ -71,6 +73,7 @@ foreach ($aktie_id as $id) {
 
    $line[$id] = new LinePlot($data);
    $graph->Add($line[$id]);
+   $line[$id]->SetLegend($stockName);
 
 }
 //$line->SetColor('darkolivegreen');
@@ -84,7 +87,7 @@ foreach ($aktie_id as $id) {
 // Setup the titles
 $graph->title->Set("Aktier");
 $graph->xaxis->title->Set("Month");
-$graph->yaxis->title->Set("%");
+$graph->yaxis->title->Set("SEK");
 
 $graph->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
