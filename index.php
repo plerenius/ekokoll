@@ -109,14 +109,13 @@ if(!$Labels)
 }
 
 // Översikts SQL-fråga
-$sum_sql="SELECT K.Owner, Accounts, Loans, Credits, Funds, Pensions, if(Stocks is NULL,0,Stocks) AS Stock, ";
+$sum_sql="SELECT K.Owner, Accounts, Loans, Funds, Pensions, if(Stocks is NULL,0,Stocks) AS Stock, ";
 $sum_sql.="if(Costs is NULL,0,-Costs) AS Cost, ";
-$sum_sql.="(Accounts+Loans+Credits+if(Costs is NULL,0,-Costs)+if(Stocks is NULL,0,Stocks)) AS Total ";
+$sum_sql.="(Accounts+Loans+if(Costs is NULL,0,-Costs)+if(Stocks is NULL,0,Stocks)+Funds) AS Total ";
 $sum_sql.="FROM ";
 $sum_sql.="(SELECT Acc.users_id AS Owner, ";
 $sum_sql.="SUM(if(Acc.accCat_id=0,if(Av.value is NULL,0,Av.value),0)) AS Accounts, ";
 $sum_sql.="SUM(if(Acc.accCat_id=1,if(Av.value is NULL,0,Av.value),0)) AS Loans, ";
-$sum_sql.="SUM(if(Acc.accCat_id=2,if(Av.value is NULL,0,Av.value),0)) AS Credits, ";
 $sum_sql.="SUM(if(Acc.accCat_id=3,if(Av.value is NULL,0,Av.value),0)) AS Funds, ";
 $sum_sql.="SUM(if(Acc.accCat_id=4,if(Av.value is NULL,0,Av.value),0)) AS Pensions ";
 $sum_sql.="FROM p_econ_accounts AS Acc ";
@@ -343,14 +342,14 @@ th.sum
 <body onLoad="myUpdate('newCost');">
 <table cellpadding="5">
   <tr>
-    <th align="right">Lägg till:</th>
+    <th align="right">L&auml;gg till:</th>
     <td><a href="addCostItem.php">Utgift</a></td>
     <td><a href="addAccValue.php">Kontouppgift</a></td>
     <td><a href="addCategory.php">Kategori</a></td>
   </tr>
   <tr>
     <th align="right">Visa:</th>
-    <td><a href="showCosts.php">Utlägg</a></td>
+    <td><a href="showCosts.php">Utl&auml;gg</a></td>
     <td><a href="showAcc.php">Konton</a></td>
     <td><a href="showSum.php">Summering</a></td>
   </tr>
@@ -362,8 +361,7 @@ $result = $summary->fetchAll(PDO::FETCH_ASSOC);
 echo "<table cellspacing='0'>\n<tr>\n";
 echo "<th align=left>Anv&auml;ndare</th>\n";
 echo "<th align=right>Konto</th>\n";
-echo "<th align=right>Lån</th>\n";
-echo "<th align=right>Kredit</th>\n";
+echo "<th align=right>L&aring;n</th>\n";
 echo "<th align=right>Fond</th>\n";
 echo "<th align=right>Pension</th>\n";
 echo "<th align=right>Aktier</th>\n";
@@ -419,7 +417,7 @@ echo "</table>";
       <td><textarea type="textarea" name="comment" value="" rows="3" size="32" /></textarea></td>
     </tr>
     <tr valign="baseline">
-      <td nowrap="nowrap" align="right">Användare:</td>
+      <td nowrap="nowrap" align="right">Anv&auml;ndare:</td>
       <td><select name="users_id">
         <?php 
 do {  
