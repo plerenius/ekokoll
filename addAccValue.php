@@ -3,6 +3,12 @@
 <?php
 require_once('Connections/localhost_lerenius.php');
 
+if (isset($_GET['user'])) {
+  $user = "a.users_id=".$_GET['user'];
+} else {
+  $user = "1";
+}
+
 if (!function_exists("GetSQLValueString")) {
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
@@ -50,13 +56,17 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 }
 
 mysql_select_db($database_localhost_lerenius, $localhost_lerenius);
-$query_Accounts = "SELECT * FROM p_econ_accounts ORDER BY users_id, name";
+$query_Accounts = "SELECT a.* FROM p_econ_accounts AS a ";
+$query_Accounts .= "LEFT JOIN p_econ_accountvalues AS av ON a.id=av.accounts_id AND ";
+$query_Accounts .= "DATE_FORMAT(av.date,'%y-%m')=DATE_FORMAT(NOW()-INTERVAL 1 MONTH,'%y-%m') ";
+$query_Accounts .= "WHERE $user AND av.value IS NULL AND a.active=1 ";
+$query_Accounts .= "ORDER BY a.users_id, a.name";
 $Accounts = mysql_query($query_Accounts, $localhost_lerenius) or die(mysql_error());
 $row_Accounts = mysql_fetch_assoc($Accounts);
 $totalRows_Accounts = mysql_num_rows($Accounts);
 ?>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=latin1" />
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
   <title>L&auml;gg till kontov&auml;rde</title>
 </head>
 
