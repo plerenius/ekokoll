@@ -17,7 +17,7 @@ $graph = new graph(1024, 600);
 $graph->img->SetMargin(100, 50, 50, 50);    
 $graph->SetScale('textlin');
 
-$a_sql="SELECT id FROM p_ekon_stocks";
+$a_sql="SELECT id FROM p_ekon_stocks WHERE active>0";
 $a_list=$db->query($a_sql);
 if (!$a_list) {
   die("Execute query error, because: ". $db->errorInfo());

@@ -136,7 +136,7 @@ $sum_sql.="(SELECT sh.users_id AS Owner, DATE(sv.time), ";
 $sum_sql.="SUM(if(sh.nofstocks is NULL,0,sh.nofstocks * sv.value)) AS Stocks ";
 $sum_sql.="FROM p_ekon_stockholdings AS sh ";
 $sum_sql.="LEFT JOIN p_econ_users AS u ON u.name=sh.users_id ";
-$sum_sql.="LEFT JOIN (SELECT * FROM p_ekon_stockvalues ";
+$sum_sql.="INNER JOIN (SELECT * FROM p_ekon_stockvalues ";
 $sum_sql.="WHERE DATE(time)=(SELECT DATE(MAX(time)) FROM p_ekon_stockvalues)) ";
 $sum_sql.="AS sv ON sh.stock_id = sv.stock_id ";
 $sum_sql.="GROUP BY DATE(time)) ";
@@ -233,7 +233,8 @@ $stocks_sql.="AND DATE_FORMAT(sv.time,'%Y%m%d') = (";
 $stocks_sql.="SELECT MAX(DATE_FORMAT(time,'%Y%m%d')) FROM p_ekon_stockvalues)  ";
 $stocks_sql.="LEFT JOIN p_ekon_stockholdings AS sh ON s.id = sh.stock_id ";
 $stocks_sql.="GROUP BY s.id ";
-$stocks_sql.="ORDER BY DATE_FORMAT(sv.time,'%Y%m%d') DESC, s.name";
+$stocks_sql.="ORDER BY DATE_FORMAT(sv.time,'%Y%m%d') DESC, s.name ";
+//$stocks_sql.="WHERE ant>0";
 try{
   $stocks = $db->query($stocks_sql);
 } catch (PDOException $err) {
@@ -587,6 +588,7 @@ $sum_cost = 0;
 $sum_diff = 0;
 
 while($nt=$stocks->fetchObject()){
+  if ($nt->ant > 0){
     if($old_owner != $nt->Owner) {
       $old_owner = $nt->Owner;
       $odd=0;
@@ -628,6 +630,7 @@ while($nt=$stocks->fetchObject()){
 	$sum_tot  += $nt->tot;
 	$sum_cost += $nt->cost;
 	$sum_diff += $nt->tot_diff;
+  }
 }
 echo "<tr bgcolor='FFDDFF'>\n";
 echo "<th align=left>Summa:</th>\n";
