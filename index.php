@@ -225,8 +225,8 @@ if(!$accounts)
 // Aktier
 $stocks_sql ="SELECT DATE_FORMAT(sv.time,'%e/%c') AS date, sh.users_id AS Owner, s.name, ";
 $stocks_sql.="sv.diff, sv.value, sv.high, sv.low, SUM(sh.nofstocks) AS ant, ";
-$stocks_sql.="SUM(sh.nofstocks * sv.value) AS tot, SUM(sh.nofstocks * sh.cost) AS cost, ";
-$stocks_sql.="SUM((sv.value-sh.cost)*sh.nofstocks) AS tot_diff ";
+$stocks_sql.="SUM(IF(sh.nofstocks>0,sh.nofstocks,0) * sv.value) AS tot, SUM(IF(sh.nofstocks>0,sh.nofstocks,0) * sh.cost) AS cost, ";
+$stocks_sql.="SUM((sv.value-sh.cost)*IF(sh.nofstocks>0,sh.nofstocks,0)) AS tot_diff ";
 $stocks_sql.="FROM p_ekon_stocks AS s ";
 $stocks_sql.="INNER JOIN p_ekon_stockvalues AS sv ON sv.stock_id = s.id ";
 $stocks_sql.="AND DATE_FORMAT(sv.time,'%Y%m%d') = (";
