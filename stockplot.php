@@ -53,9 +53,10 @@ foreach ($aktie_id as $id) {
    $datax=array();
    $old_month=10;
    $first=1;
+   $base=1;
    while($sv=$a_q->fetchObject())
    {
-	   if ($first==1) {
+	   if ($first==1 && $sv->sum != 0) {
 		   $base=$sv->sum;
 		   $first=0;
 	   }
